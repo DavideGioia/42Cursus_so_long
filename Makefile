@@ -6,7 +6,7 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/06/30 19:30:58 by dgioia           ###   ########.fr        #
+#    Updated: 2022/06/30 21:37:43 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Wextra -Werror
 
-SRC	=	so_long.c\
+SRC	=	src/map.c \
 
 OBJ	=	$(SRC:.c=.o)
 

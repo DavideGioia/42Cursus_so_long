@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   map.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/29 22:27:02 by dgioia            #+#    #+#             */
-/*   Updated: 2022/06/30 21:09:12 by dgioia           ###   ########.fr       */
+/*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
+/*   Updated: 2022/06/30 21:18:39 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#ifndef MAP_H
+# define MAP_H
 
-int	main(void)
-{
-	char	*line;
-	int		fd;
+#include <fcntl.h>
+# include "../libft/includes/libft.h"
+# include "../libft/includes/ft_printf.h"
+# include "../libft/includes/get_next_line.h"
 
-	fd = open("maps/map.ber", O_RDONLY);
-	line = "";
-	while (!line)
-	{
-		if (!line)
-		{
-			ft_printf("mappa finita");
-			break ;
-		}
-		line = get_next_line(fd);
-		ft_printf("%s", line);
-	}
-}
+void	read_map(void);
+
+#endif
