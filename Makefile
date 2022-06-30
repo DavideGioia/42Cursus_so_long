@@ -6,38 +6,42 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/06/29 22:35:16 by dgioia           ###   ########.fr        #
+#    Updated: 2022/06/30 19:30:58 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = so_long
+NAME	=	so_long
 
-SRCS = so_long.c \
+CC		=	gcc
 
-OBJ = $(SRCS:.c=.o)
+CFLAGS	=	-Wall -Wextra -Werror
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+SRC	=	so_long.c\
 
-so_long: so_long.o libft
-	$(CC) -o $@ $< -Llibft -lft
+OBJ	=	$(SRC:.c=.o)
+
+MLX		=	./libmlx.dylib
+
+LIBFT = libft/libft.a
+
+RM		=	rm -rf
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+			$(CC) ${CFLAGS} -g -c $< -o $@
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME):	$(OBJ)
+			make -C ./libft
+			make -C ./mlx
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX) $(LIBFT)
 
-libft:
-	make -C libft
+all:		$(NAME)
 
 clean:
-	rm -f $(OBJECTS)
-	make -C libft clean
-	
-fclean: clean
-	rm -f server client libft/libft.a
+			${RM} $(OBJ)
 
-re: fclean all
+fclean: 	clean
+			${RM} $(NAME) ${OBJ}
 
-.PHONY: all bonus libft clean fclean re
+re:			fclean all
+
+.PHONY:		all clean fclean re
