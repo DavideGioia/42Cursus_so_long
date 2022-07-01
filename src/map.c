@@ -6,31 +6,53 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/06/30 22:08:06 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/07/01 20:19:37 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/map.h"
 
-void	read_map(void)
+int	map_err_checker(char **map)
 {
+	int	i;
+
+	i = 0;
+	
+	while (i <= 0)
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+	return 0;
+}
+
+void	map_init(void)
+{
+	char	**map;
 	char	*line;
 	int		fd;
+	int		line_count;
+	int		i;
 
-	line = NULL;
-	fd = open("../maps/map.ber", O_RDONLY);
-	while (1)
+	fd = open("maps/map.ber", O_RDONLY);
+	line_count = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
 		line = get_next_line(fd);
-		ft_printf("%s", line);
-		if (!line)
-			break ;
+		line_count++;
 	}
+	free(line);
 	close(fd);
+	map = (char **)malloc(sizeof(char *) * (line_count + 1));
+	fd = open("maps/map.ber", O_RDONLY);
+	i = 0;
+	while (i++ < line_count)
+		map[i] = get_next_line(fd);
+	map_err_checker(map);
 }
 
 int	main(void)
 {
-
-	read_map();
+	map_init();
 }
