@@ -6,53 +6,54 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/07/01 20:19:37 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/09/16 19:33:59 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/map.h"
 
-int	map_err_checker(char **map)
+int	line_counter(void)
 {
-	int	i;
+	int		fd;
+	int		c;
+	char	*row;
 
-	i = 0;
-	
-	while (i <= 0)
+	fd = open("maps/map.ber", O_RDONLY);
+	c = 0;
+	row = get_next_line(fd);
+	while (row)
 	{
-		printf("%s", map[i]);
-		i++;
+		row = get_next_line(fd);
+		c++;
 	}
-	return 0;
+	free(row);
+	close(fd);
+	return (c);
 }
 
-void	map_init(void)
+char	**map_init(s_map *map_ptr)
 {
-	char	**map;
-	char	*line;
 	int		fd;
-	int		line_count;
 	int		i;
 
+	map_ptr->rows = line_counter();
+	printf("%d", map_ptr->rows);
 	fd = open("maps/map.ber", O_RDONLY);
-	line_count = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		line = get_next_line(fd);
-		line_count++;
-	}
-	free(line);
-	close(fd);
-	map = (char **)malloc(sizeof(char *) * (line_count + 1));
-	fd = open("maps/map.ber", O_RDONLY);
+	map_ptr->map = (char **)malloc(sizeof(char*) * (map_ptr->rows + 1));
 	i = 0;
-	while (i++ < line_count)
-		map[i] = get_next_line(fd);
-	map_err_checker(map);
+	while (i < map_ptr->rows)
+	{
+		map_ptr->map[i] = get_next_line(fd);
+		i++;
+	}
+	close(fd);
+	return (map_ptr->map);
 }
 
 int	main(void)
 {
-	map_init();
+	s_map	*map_ptr;
+
+	map_ptr = (s_map *)malloc(sizeof(s_map));
+	map_ptr->map = map_init(map_ptr);
 }
