@@ -1,33 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/09/21 14:45:50 by dgioia           ###   ########.fr       */
+/*   Created: 2022/09/21 14:43:47 by dgioia            #+#    #+#             */
+/*   Updated: 2022/09/21 14:46:02 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-
-#include <fcntl.h>
-# include "../libft/includes/libft.h"
-# include "../libft/includes/ft_printf.h"
-# include "../libft/includes/get_next_line.h"
-# include "../mlx/mlx.h"
-
-
-
-typedef	struct s_map
-{
-	char	**map;
-	int		rows;
-	int		e;
-	int		p;
-	int		c;
-}	s_map;
-
-#endif
+#include "../inc/so_long.h"

@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/09/19 18:44:44 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/09/21 15:50:56 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,84 +31,64 @@ int	map_row_counter(void)
 	return (c);
 }
 
-void	map_item_checker(s_map *map_ptr)
+void	map_checklayout(s_map *map,	char *row)
 {
-	int	i;
-	int j;
+	map->e += ft_countchar(row, 'E');
+	map->p += ft_countchar(row, 'P');
+	map->c += ft_countchar(row, 'C');
 
-	i = 0;
-	while (i < map_ptr->rows && map_ptr->map[i])
-	{
-		j = -1;
-		while (map_ptr->map[i][++j] != '\0')
-		{
-			if (map_ptr->map[i][j] == 'E')
-				map_ptr->e++;
-			if (map_ptr->map[i][j] == 'P')
-				map_ptr->p++;
-			if (map_ptr->map[i][j] == 'C')
-				map_ptr->c++;
-		}
-		i++;
-	}
 }
 
-void	map_error_checker(s_map *map_ptr)
+char	**map_init(s_map *map)
 {
-	if (map_ptr->e < 1 || map_ptr->p < 1 || map_ptr->c < 1)
-		ft_printf("ERRORE: la mappa non ha abbastanza uscite, collezionabili o posizioni di partenza.");
-}
-
-char	**map_init(s_map *map_ptr)
-{
-	int		fd;
 	int		i;
+	int		fd;
+	char	*row;
 
-	map_ptr->rows = map_row_counter();
-	map_ptr->c = 0;
-	map_ptr->e = 0;
-	map_ptr->p = 0;
+	map->rows = map_row_counter();
+	map->c = 0;
+	map->e = 0;
+	map->p = 0;
 	fd = open("maps/map.ber", O_RDONLY);
-	map_ptr->map = (char **)malloc(sizeof(char*) * (map_ptr->rows + 1));
+	map->map = (char **)malloc (sizeof (char *) * (map->rows + 1));
 	i = 0;
-	while (i < map_ptr->rows)
+	while (i < map->rows)
 	{
-		map_ptr->map[i] = get_next_line(fd);
+		row = get_next_line(fd);
+		map->map[i] = row;
+		map_checklayout(map, row);
 		i++;
 	}
 	close(fd);
-	return (map_ptr->map);
+	return (map->map);
 }
 
-void	map_debugger(s_map *map_ptr)
+void	map_debugger(s_map *map)
 {
 	int i;
 
 	i = 0;
-	while(i < map_ptr->rows)
+	while(i < map->rows)
 	{
-		ft_printf("%s", map_ptr->map[i]);
+		ft_printf("%s", map->map[i]);
 		i++;
 	}
-	ft_printf("ROWS: %d\n", map_ptr->rows);
-	ft_printf("COLLECTIBLES: %d\n", map_ptr->e);
-	ft_printf("MAP EXIT: %d\n", map_ptr->p);
-	ft_printf("PLAYERS: %d", map_ptr->c);
+	ft_printf("\nROWS: %d\n", map->rows);
+	ft_printf("COLLECTIBLES: %d\n", map->c);
+	ft_printf("MAP EXIT: %d\n", map->e);
+	ft_printf("PLAYERS: %d", map->p);
 }
 
 int	main(void)
 {
-	s_map	*map_ptr;
+	s_map	*map;
 	//void	*mlx;
 	//void	*mlx_win;
 
-	map_ptr = (s_map *)malloc(sizeof(s_map));
-	map_ptr->map = map_init(map_ptr);
-	
-	map_item_checker(map_ptr);
-	map_error_checker(map_ptr);
+	map = (s_map *)malloc(sizeof(s_map));
+	map->map = map_init(map);
 
-	map_debugger(map_ptr);
+	map_debugger(map);
 	//mlx = mlx_init();
 	//mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
 	//mlx_loop(mlx);
