@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/03 02:57:13 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/03 04:20:15 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,46 +31,47 @@ int	map_row_counter(void)
 	return (c);
 }
 
-// si occupa di leggere la mappa e contare quanti item ci sono all'interno
-char	**map_init(s_map *map)
+// legge la mappa e inizializza le informazioni base
+char	**map_init(t_map *map)
 {
 	int		i;
 	int		fd;
 	char	*row;
 
-	map->rows = map_row_counter();
-	map->c = 0;
-	map->e = 0;
-	map->p = 0;
+	map->n_rows = map_row_counter();
+	map->n_collect = 0;
+	map->n_exit = 0;
+	map->n_player = 0;
 	fd = open("maps/map.ber", O_RDONLY);
-	map->map = (char **)malloc (sizeof (char *) * (map->rows + 1));
+	map->map = (char **)malloc (sizeof (char *) * (map->n_rows + 1));
 	i = 0;
-	while (i < map->rows)
+	while (i < map->n_rows)
 	{
 		row = get_next_line(fd);
 		map->map[i] = row;
-		map->e += ft_countchar(row, 'E');
-		map->p += ft_countchar(row, 'P');
-		map->c += ft_countchar(row, 'C');
+		map->n_exit += ft_countchar(row, 'E');
+		map->n_player += ft_countchar(row, 'P');
+		map->n_collect += ft_countchar(row, 'C');
 		i++;
 	}
+	map->n_col = ft_strlen(map->map[0]);
 	close(fd);
 	return (map->map);
 }
 
 // da rimuovere a fine progeto, serve per controllare la mappa
-void	map_debugger(s_map *map)
+void	map_debugger(t_map *map)
 {
 	int i;
 
 	i = 0;
-	while(i < map->rows)
+	while(i < map->n_rows)
 	{
 		ft_printf("%s", map->map[i]);
 		i++;
 	}
-	ft_printf("\nROWS: %d\n", map->rows);
-	ft_printf("COLLECTIBLES: %d\n", map->c);
-	ft_printf("MAP EXIT: %d\n", map->e);
-	ft_printf("PLAYERS: %d\n", map->p);
+	ft_printf("\nROWS: %d\n", map->n_rows);
+	ft_printf("COLLECTIBLES: %d\n", map->n_collect);
+	ft_printf("MAP EXIT: %d\n", map->n_exit);
+	ft_printf("PLAYERS: %d\n", map->n_player);
 }

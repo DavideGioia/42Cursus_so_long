@@ -6,45 +6,86 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:26:19 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/03 03:14:34 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/03 04:29:31 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	map_rectangle_checker (s_map *map)
+int	map_rectangle_checker (t_map *map)
 {
 	int	i;
-	int	fir_rowlen;
 	int	curr_rowlen;
 
 	i = 0;
-	fir_rowlen = ft_strlen(map->map[0]) - 1;
-	while (i < map->rows)
+	while (i < map->n_rows)
 	{
 		curr_rowlen = ft_strlen(map->map[i]);
-		if (fir_rowlen && ((fir_rowlen != curr_rowlen - 1 && \
-			ft_strchr(map->map[i], '\n')) || (fir_rowlen != curr_rowlen && \
-			!ft_strchr(map->map[i], '\n'))))
+		if (map->n_col - 1 != curr_rowlen - 1 && ft_strchr(map->map[i], '\n'))
+			return (1);
+		if (map->n_col - 1 != curr_rowlen && !ft_strchr(map->map[i], '\n'))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int	map_walls_checker(s_map *map)
+int	map_walls_checker(t_map *map)
 {
+	int	i;
+
+	i = 0;
+	while (i < map->n_rows)
+	{
+		if (ft_countchar(map->map[0], '1') != map->n_col - 1)
+			return (1);
+		if (ft_countchar(map->map[map->n_rows - 1], '1') != map->n_col - 1)
+			return (1);
+		if (map->map[i][0] != '1' || map->map[i][map->n_col - 2] != '1')
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
-int	map_error(s_map *map)
+// non funziona
+int	map_invalidchar_checker(t_map *map)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < map->n_rows)
+	{
+		j = 0;
+		while (j < map->n_col - 2)
+		{
+			if (map->map[i][j] != 1 || map->map[i][j] != 0 || map->map[i][j] != 'E' || map->map[i][j] != "P" || map->map[i][j] != "C")
+				return (1);
+			j++;
+		}
+		i++;
+	}
+}
+
+int	map_error(t_map *map)
+{
+	if (map_invalidchar_checker(map) != 0)
+	{
+		ft_printf("ERRORE: la mappa contiene caratteri non validi. \n");
+		return (1);
+	}
 	if (map_rectangle_checker(map) != 0)
 	{
 		ft_printf("ERRORE: la mappa non é un rettangolo.\n");
 		return (1);
 	}
-	if (map->e < 1 || map->c < 1 || map->p < 1)
+	if (map_walls_checker(map) != 0)
+	{
+		ft_printf("ERRORE: la mappa non é circondata da mura.\n");
+		return (1);
+	}
+	if (map->n_exit < 1 || map->n_collect < 1 || map->n_player < 1)
 	{
 		ft_printf("ERRORE: non ci sono abbastanza items. Controlla la mappa.\n");
 		return (1);
