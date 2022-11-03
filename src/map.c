@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/09/21 15:50:56 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/03 02:57:13 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,7 @@ int	map_row_counter(void)
 	return (c);
 }
 
-void	map_checklayout(s_map *map,	char *row)
-{
-	map->e += ft_countchar(row, 'E');
-	map->p += ft_countchar(row, 'P');
-	map->c += ft_countchar(row, 'C');
-
-}
-
+// si occupa di leggere la mappa e contare quanti item ci sono all'interno
 char	**map_init(s_map *map)
 {
 	int		i;
@@ -56,13 +49,16 @@ char	**map_init(s_map *map)
 	{
 		row = get_next_line(fd);
 		map->map[i] = row;
-		map_checklayout(map, row);
+		map->e += ft_countchar(row, 'E');
+		map->p += ft_countchar(row, 'P');
+		map->c += ft_countchar(row, 'C');
 		i++;
 	}
 	close(fd);
 	return (map->map);
 }
 
+// da rimuovere a fine progeto, serve per controllare la mappa
 void	map_debugger(s_map *map)
 {
 	int i;
@@ -76,20 +72,5 @@ void	map_debugger(s_map *map)
 	ft_printf("\nROWS: %d\n", map->rows);
 	ft_printf("COLLECTIBLES: %d\n", map->c);
 	ft_printf("MAP EXIT: %d\n", map->e);
-	ft_printf("PLAYERS: %d", map->p);
-}
-
-int	main(void)
-{
-	s_map	*map;
-	//void	*mlx;
-	//void	*mlx_win;
-
-	map = (s_map *)malloc(sizeof(s_map));
-	map->map = map_init(map);
-
-	map_debugger(map);
-	//mlx = mlx_init();
-	//mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello World!");
-	//mlx_loop(mlx);
+	ft_printf("PLAYERS: %d\n", map->p);
 }
