@@ -6,7 +6,7 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/09/21 14:45:18 by dgioia           ###   ########.fr        #
+#    Updated: 2022/11/02 17:29:40 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,26 +14,27 @@ NAME	=	so_long
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	
 
 SRC	=	src/main.c \
 		src/map.c \
+		src/map_checker.c \
 
 OBJ	=	$(SRC:.c=.o)
 
-MLX		=	./libmlx.dylib
+MLX		=	./libmlx_Linux.a
 
 LIBFT = libft/libft.a
 
 RM		=	rm -rf
 
 %.o: %.c
-			$(CC) ${CFLAGS} -g -c $< -o $@
+			$(CC) ${CFLAGS} -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME):	$(OBJ)
 			make -C ./libft
-			make -C ./mlx
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX) $(LIBFT)
+			make -C ./mlx_linux
+			$(CC) $(CFLAGS) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) $(LIBFT)
 
 all:		$(NAME)
 
