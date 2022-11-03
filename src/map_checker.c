@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:26:19 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/03 04:29:31 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/03 18:47:47 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	map_walls_checker(t_map *map)
 	return (0);
 }
 
-// non funziona
 int	map_invalidchar_checker(t_map *map)
 {
 	int	i;
@@ -58,14 +57,17 @@ int	map_invalidchar_checker(t_map *map)
 	while (i < map->n_rows)
 	{
 		j = 0;
-		while (j < map->n_col - 2)
+		while (j < map->n_col)
 		{
-			if (map->map[i][j] != 1 || map->map[i][j] != 0 || map->map[i][j] != 'E' || map->map[i][j] != "P" || map->map[i][j] != "C")
+			if (map->map[i][j] != '1' && map->map[i][j] != '0' && \
+				map->map[i][j] != 'E' && map->map[i][j] != 'P' && \
+				map->map[i][j] != 'C' && map->map[i][j] != '\n')
 				return (1);
 			j++;
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	map_error(t_map *map)

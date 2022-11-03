@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:27:38 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/03 04:15:10 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/03 16:36:29 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(void)
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map->map = map_init(map);
-	map_debugger(map);
+	//map_debugger(map);
 	if (map_error(map) != 0)
 		return (1);
 	
