@@ -6,11 +6,18 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/03 04:20:15 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/04 22:03:34 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
+
+int	map_items_counter(t_map *map, char *row)
+{
+	map->n_exit += ft_countchar(row, 'E');
+	map->n_player += ft_countchar(row, 'P');
+	map->n_collect += ft_countchar(row, 'C');
+}
 
 int	map_row_counter(void)
 {
@@ -49,12 +56,16 @@ char	**map_init(t_map *map)
 	{
 		row = get_next_line(fd);
 		map->map[i] = row;
-		map->n_exit += ft_countchar(row, 'E');
-		map->n_player += ft_countchar(row, 'P');
-		map->n_collect += ft_countchar(row, 'C');
+		if (i == 0)
+			map->n_col = ft_strlen(map->map[0]);
+		map_items_counter(map, row); // da sistemare
+		if (i == 0 || i == map->n_rows - 1)
+			if (map_checker(map, row, 1) == 1)
+				return (1);
+		if (map_checker(map, row, 0) == 1)
+			return (1);
 		i++;
 	}
-	map->n_col = ft_strlen(map->map[0]);
 	close(fd);
 	return (map->map);
 }
