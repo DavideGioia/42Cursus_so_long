@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/04 22:03:34 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/07 02:59:32 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	map_row_counter(void)
 	return (c);
 }
 
-// legge la mappa e inizializza le informazioni base
 char	**map_init(t_map *map)
 {
 	int		i;
@@ -52,25 +51,24 @@ char	**map_init(t_map *map)
 	fd = open("maps/map.ber", O_RDONLY);
 	map->map = (char **)malloc (sizeof (char *) * (map->n_rows + 1));
 	i = 0;
-	while (i < map->n_rows)
+	while (i < map->n_rows )
 	{
 		row = get_next_line(fd);
 		map->map[i] = row;
-		if (i == 0)
-			map->n_col = ft_strlen(map->map[0]);
-		map_items_counter(map, row); // da sistemare
-		if (i == 0 || i == map->n_rows - 1)
-			if (map_checker(map, row, 1) == 1)
-				return (1);
-		if (map_checker(map, row, 0) == 1)
-			return (1);
+		map_items_counter(map, row);
 		i++;
+	}
+	map->n_col = ft_strlen(map->map[0]);
+	if (map_checker(map) == 1)
+	{
+		close(fd);
+		exit (0);
 	}
 	close(fd);
 	return (map->map);
 }
 
-// da rimuovere a fine progeto, serve per controllare la mappa
+// da rimuovere a fine progetto, serve per controllare la mappa
 void	map_debugger(t_map *map)
 {
 	int i;
