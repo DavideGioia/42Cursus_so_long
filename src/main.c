@@ -6,57 +6,27 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:27:38 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/08 03:19:43 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/11 18:12:35 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-t_window	window_init(void *mlx, t_map *map)
-{
-	t_window	window;
-
-	window.ref = mlx_new_window(mlx, (map->n_col - 1) * 64, map->n_rows * 64, "Test");
-	window.screen_size.x = (map->n_col - 1) * 64;
-	window.screen_size.y = map->n_rows * 64;
-
-	mlx_hook(window.ref, 17, 0, exit, 0);
-
-	return (window);
-}
-
-t_image	new_sprite(void	*mlx, char	*img_path)
+t_image	new_sprite(void	*mlx, char *path)
 {
 	t_image img;
 	
-	img.ref = mlx_xpm_file_to_image(mlx, img_path, &img.size.x, &img.size.y);
+	img.ref = mlx_xpm_file_to_image(mlx, path, &img.size.x, &img.size.y);
+	img.pixels  = mlx_get_data_addr(img.ref, &img.bits_per_pixel, &img.line_size, &img.endian);
 
 	return (img);
 }
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	load_texture(t_map *map, t_program p)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-int	main(void)
-{
-	t_program	program;
-	t_map		*map;
-	t_window	window;
-
-	program.mlx = mlx_init();
-
-	map = (t_map *)malloc(sizeof(t_map));
-	map_init(map);
-	
-	program.window = window_init(program.mlx, map);
-	
 	int i;
 	int j;
+
 	i = 0;
 	while (i < map->n_rows)
 	{
@@ -65,22 +35,46 @@ int	main(void)
 		{
 			if (map->map[i][j] == '1')
 			{
-				program.sprite = new_sprite(program.mlx, "imgs/wall.xmp");
-				program.sprite_pos.x = j * 64;
-				program.sprite_pos.y = i * 64;
-				mlx_put_image_to_window(program.mlx, program.window.ref, program.sprite.ref, program.sprite_pos.x, program.sprite_pos.y);
+				p.sprite = new_sprite(p.mlx, "./imgs/wall.xpm");
+				p.sprite_pos.x = j * 64;
+				p.sprite_pos.y = i * 64;
+				mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);
+			}
+			if(map->map[i][j] == '0')
+			{
+				p.sprite = new_sprite(p.mlx, "./imgs/grass.xpm");
+				p.sprite_pos.x = j * 64;
+				p.sprite_pos.y = i * 64;
+				mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);	
 			}
 			j++;
 		}
 		i++;
 	}
-	mlx_loop(program.mlx);
+}
+
+int	main(void)
+{
+	t_program	p;
+	t_map		*map;
+	t_window	window;
+
+	p.mlx = mlx_init();
+
+	map = (t_map *)malloc(sizeof(t_map));
+	map_init(map);
+	
+	p.window = window_init(p.mlx, map);
+
+	load_texture(map, p);
+
+	mlx_loop(p.mlx);
 }
 
 // int	main(void)
 // {
 // 	t_map	*map;
-// 	t_program	program;
+// 	t_p	p;
 // 	void	*mlx_win;
 // 	t_data	img;
 
@@ -93,25 +87,25 @@ int	main(void)
 // 	map_init(map);
 // 	map_debugger(map);
 	
-// 	program.mlx = mlx_init();
-// 	program.window = window_init(program.mlx, map);
-// 	// if(program.mlx != 0)
+// 	p.mlx = mlx_init();
+// 	p.window = window_init(p.mlx, map);
+// 	// if(p.mlx != 0)
 // 	// {
-// 	// 	program.sprite = new_sprite(program.mlx, "imgs/wall.xmp");
-// 	// 	program.sprite_pos.x = 0;
-// 	// 	program.sprite_pos.y = 0;
-// 	// 	mlx_put_image_to_window(program.mlx, program.window.ref, program.sprite.ref, program.sprite_pos.x, program.sprite_pos.y);
+// 	// 	p.sprite = new_sprite(p.mlx, "imgs/wall.xmp");
+// 	// 	p.sprite_pos.x = 0;
+// 	// 	p.sprite_pos.y = 0;
+// 	// 	mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);
 // 	// }
 // 	// int img;
 // 	// int img_width;
 // 	// int img_height;
-// 	// img = mlx_xpm_file_to_image(program.mlx, "../imgs/wall.xmp", &img_width, &img_height);
-// 	img.img = mlx_new_image(program.mlx, 1920, 1080);
+// 	// img = mlx_xpm_file_to_image(p.mlx, "../imgs/wall.xmp", &img_width, &img_height);
+// 	img.img = mlx_new_image(p.mlx, 1920, 1080);
 // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 // 	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
 // 	ft_printf("prima del seg");
 
-// 	mlx_put_image_to_window(program.mlx, program.window.ref, img.img, 0, 0);
-// 	mlx_loop(program.mlx);
+// 	mlx_put_image_to_window(p.mlx, p.window.ref, img.img, 0, 0);
+// 	mlx_loop(p.mlx);
 // 	return (0);
 // }

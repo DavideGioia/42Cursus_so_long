@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/07 19:36:02 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/08 21:28:57 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_window
 typedef struct s_image
 {
 	void		*ref;
+	void		**list;
 	t_vector	size;
 	char		*pixels;
 	int			bits_per_pixel;
@@ -75,6 +76,9 @@ void	map_debugger(t_map *map); // da rimuovere
 // map checker
 int	map_items_checker(t_map *map);
 int	map_checker(t_map *map);
+
+// window
+t_window	window_init(void *mlx, t_map *map);
 
 
 #endif
