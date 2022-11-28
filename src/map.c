@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/07 02:59:32 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/28 19:53:05 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ char	**map_init(t_map *map)
 		exit (0);
 	}
 	close(fd);
+	
+	//ft_printf("\n MAPPA MAP: %p", map->map);
 	return (map->map);
 }
 

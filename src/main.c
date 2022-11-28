@@ -6,23 +6,45 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:27:38 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/11 18:12:35 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/28 19:55:59 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-t_image	new_sprite(void	*mlx, char *path)
+t_image	new_sprite(void	*mlx, char map_item)
 {
 	t_image img;
 	
-	img.ref = mlx_xpm_file_to_image(mlx, path, &img.size.x, &img.size.y);
-	img.pixels  = mlx_get_data_addr(img.ref, &img.bits_per_pixel, &img.line_size, &img.endian);
-
+	if	(map_item == 'P')
+	{
+		ft_printf(" P ");
+		img.ref = mlx_xpm_file_to_image(mlx, "./imgs/player.xpm", &img.size.x, &img.size.y);
+	}
+	else if (map_item == '1')
+	{
+		ft_printf(" 1 ");
+		img.ref = mlx_xpm_file_to_image(mlx, "./imgs/wall.xpm", &img.size.x, &img.size.y);
+	}
+	else if (map_item == '0')
+	{
+		ft_printf(" 0 ");
+		img.ref = mlx_xpm_file_to_image(mlx, "./imgs/grass.xpm", &img.size.x, &img.size.y);
+	}
+	
 	return (img);
 }
 
-void	load_texture(t_map *map, t_program p)
+void	save_element_pos(t_program *p, char map_item, int i, int j)
+{
+	if (map_item == 'P')
+	{
+		p->e[0].pos.x = j;
+		p->e[0].pos.y = i;
+	}
+}
+
+void	load_texture(t_map *map, t_program *p)
 {
 	int i;
 	int j;
@@ -31,26 +53,71 @@ void	load_texture(t_map *map, t_program p)
 	while (i < map->n_rows)
 	{
 		j = 0;
-		while (j < map->n_col)
+		while (j < map->n_col - 1)
 		{
-			if (map->map[i][j] == '1')
-			{
-				p.sprite = new_sprite(p.mlx, "./imgs/wall.xpm");
-				p.sprite_pos.x = j * 64;
-				p.sprite_pos.y = i * 64;
-				mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);
-			}
-			if(map->map[i][j] == '0')
-			{
-				p.sprite = new_sprite(p.mlx, "./imgs/grass.xpm");
-				p.sprite_pos.x = j * 64;
-				p.sprite_pos.y = i * 64;
-				mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);	
-			}
+			p->sprite = new_sprite(p->mlx, map->map[i][j]);
+			save_element_pos(p, map->map[i][j], j, i);
+			p->sprite_pos.x = j * 64;
+			p->sprite_pos.y = i * 64;
+			mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->sprite_pos.x, p->sprite_pos.y);
 			j++;
 		}
 		i++;
 	}
+}
+
+int	check_tile(t_program *p, int direction)
+{
+	if (direction == W)
+	{
+		ft_printf("%c", p->map->map[0][0]);
+		if (p->map->map[0][0] == '1')
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_input(int key, t_program *p)
+{
+	if ((key == W || key == ARR_UP) && check_tile(p, W) != 1)
+	{
+		p->sprite = new_sprite(p->mlx, '0');
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64 , p->e[0].pos.y * 64);
+
+		p->sprite = new_sprite(p->mlx, 'P');
+		p->e[0].pos.y--;
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64, p->e[0].pos.y * 64);
+	}
+	if (key == A || key == ARR_LEFT)
+	{
+		p->sprite = new_sprite(p->mlx, '0');
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64 , p->e[0].pos.y * 64);
+
+		p->sprite = new_sprite(p->mlx, 'P');
+		p->e[0].pos.x--;
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64, p->e[0].pos.y * 64);
+	}
+	if (key == S || key == ARR_DOWN)
+	{
+		p->sprite = new_sprite(p->mlx, '0');
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64 , p->e[0].pos.y * 64);
+
+		p->sprite = new_sprite(p->mlx, 'P');
+		p->e[0].pos.y++;
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64, p->e[0].pos.y * 64);
+	}
+	if (key == D || key == ARR_RIGHT)
+	{
+		p->sprite = new_sprite(p->mlx, '0');
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64 , p->e[0].pos.y * 64);
+
+		p->sprite = new_sprite(p->mlx, 'P');
+		p->e[0].pos.x++;
+		mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->e[0].pos.x * 64, p->e[0].pos.y * 64);
+	}
+	
+	//printf("Key pressed -> %d\n", key);
+	return (0);
 }
 
 int	main(void)
@@ -63,49 +130,16 @@ int	main(void)
 
 	map = (t_map *)malloc(sizeof(t_map));
 	map_init(map);
-	
+
 	p.window = window_init(p.mlx, map);
+	p.e = (t_e *) malloc (sizeof(t_e) * 10);
 
-	load_texture(map, p);
+	p.map = &map;
+	
+	load_texture(map, &p);
 
+	mlx_key_hook(p.window.ref, *ft_input, &p);
+
+	ft_printf("\n MAPPA MAIN: %p", map->map);
 	mlx_loop(p.mlx);
 }
-
-// int	main(void)
-// {
-// 	t_map	*map;
-// 	t_p	p;
-// 	void	*mlx_win;
-// 	t_data	img;
-
-// 	map = (t_map *)malloc(sizeof(t_map));
-// 	// if (map_init(map) == 1)
-// 	// {
-// 	// 	ft_printf("ERRORE: Caricamento mappa fallito. \n");
-// 	// 	return (1);
-// 	// }
-// 	map_init(map);
-// 	map_debugger(map);
-	
-// 	p.mlx = mlx_init();
-// 	p.window = window_init(p.mlx, map);
-// 	// if(p.mlx != 0)
-// 	// {
-// 	// 	p.sprite = new_sprite(p.mlx, "imgs/wall.xmp");
-// 	// 	p.sprite_pos.x = 0;
-// 	// 	p.sprite_pos.y = 0;
-// 	// 	mlx_put_image_to_window(p.mlx, p.window.ref, p.sprite.ref, p.sprite_pos.x, p.sprite_pos.y);
-// 	// }
-// 	// int img;
-// 	// int img_width;
-// 	// int img_height;
-// 	// img = mlx_xpm_file_to_image(p.mlx, "../imgs/wall.xmp", &img_width, &img_height);
-// 	img.img = mlx_new_image(p.mlx, 1920, 1080);
-// 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-// 	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-// 	ft_printf("prima del seg");
-
-// 	mlx_put_image_to_window(p.mlx, p.window.ref, img.img, 0, 0);
-// 	mlx_loop(p.mlx);
-// 	return (0);
-// }

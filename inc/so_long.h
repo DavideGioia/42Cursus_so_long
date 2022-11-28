@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/08 21:28:57 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/28 19:47:32 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,23 @@
 # include "../libft/includes/get_next_line.h"
 # include "../mlx_linux/mlx.h"
 
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+
+# define ARR_UP 65362
+# define ARR_LEFT 65361
+# define ARR_DOWN 65364
+# define ARR_RIGHT 65363
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 
 typedef struct s_vector
 {
@@ -50,13 +60,10 @@ typedef struct s_image
 	int			endian;
 }	t_image;
 
-typedef struct s_program
-{
-	void		*mlx;
-	t_window	window;
+typedef struct s_e {
+	t_vector	pos;
 	t_image		sprite;
-	t_vector	sprite_pos;
-}	t_program;
+}				t_e;
 
 typedef	struct s_map
 {
@@ -67,6 +74,16 @@ typedef	struct s_map
 	int		n_player;
 	int		n_collect;
 }	t_map;
+
+typedef struct s_program
+{
+	void		*mlx;
+	t_map		*map;
+	t_window	window;
+	t_image		sprite;
+	t_vector	sprite_pos;
+	t_e			*e;
+}	t_program;
 
 // map
 char	**map_init(t_map *map);

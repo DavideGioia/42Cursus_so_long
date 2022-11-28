@@ -6,19 +6,20 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/11/02 17:29:40 by dgioia           ###   ########.fr        #
+#    Updated: 2022/11/23 19:19:11 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	so_long
 
-CC		=	gcc
+CC		=	gcc -g
 
 CFLAGS	=	
 
 SRC	=	src/main.c \
 		src/map.c \
 		src/map_checker.c \
+		src/window.c \
 
 OBJ	=	$(SRC:.c=.o)
 
