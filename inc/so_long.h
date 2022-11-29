@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/28 19:47:32 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/29 02:43:52 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ typedef struct s_e {
 	t_image		sprite;
 }				t_e;
 
+typedef	struct s_game
+{
+	int	game_complete;
+	int	coin_collected;
+	int	moves;
+}	t_game;
+
 typedef	struct s_map
 {
 	char	**map;
@@ -72,7 +79,7 @@ typedef	struct s_map
 	int		n_col;
 	int		n_exit;
 	int		n_player;
-	int		n_collect;
+	int		n_coin;
 }	t_map;
 
 typedef struct s_program
@@ -83,6 +90,7 @@ typedef struct s_program
 	t_image		sprite;
 	t_vector	sprite_pos;
 	t_e			*e;
+	t_game		game;
 }	t_program;
 
 // map
@@ -97,5 +105,12 @@ int	map_checker(t_map *map);
 // window
 t_window	window_init(void *mlx, t_map *map);
 
+// hook
+int	ft_input(int key, t_program *p);
+int	tile_checker(t_program *p, int dir);
+
+//texture
+t_image	new_sprite(void	*mlx, char map_item);
+void	load_texture(t_map *map, t_program *p);
 
 #endif

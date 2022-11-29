@@ -6,7 +6,7 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/11/23 19:19:11 by dgioia           ###   ########.fr        #
+#    Updated: 2022/11/29 02:30:53 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRC	=	src/main.c \
 		src/map.c \
 		src/map_checker.c \
 		src/window.c \
+		src/hook.c \
+		src/texture.c \
 
 OBJ	=	$(SRC:.c=.o)
 

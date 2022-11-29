@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/28 19:53:05 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/29 02:46:02 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	map_items_counter(t_map *map, char *row)
 {
 	map->n_exit += ft_countchar(row, 'E');
 	map->n_player += ft_countchar(row, 'P');
-	map->n_collect += ft_countchar(row, 'C');
+	map->n_coin += ft_countchar(row, 'C');
 }
 
 int	map_row_counter(void)
@@ -45,7 +45,7 @@ char	**map_init(t_map *map)
 	char	*row;
 
 	map->n_rows = map_row_counter();
-	map->n_collect = 0;
+	map->n_coin = 0;
 	map->n_exit = 0;
 	map->n_player = 0;
 	fd = open("maps/map.ber", O_RDONLY);
@@ -82,7 +82,7 @@ void	map_debugger(t_map *map)
 		i++;
 	}
 	ft_printf("\nROWS: %d\n", map->n_rows);
-	ft_printf("COLLECTIBLES: %d\n", map->n_collect);
+	ft_printf("COLLECTIBLES: %d\n", map->n_coin);
 	ft_printf("MAP EXIT: %d\n", map->n_exit);
 	ft_printf("PLAYERS: %d\n", map->n_player);
 }

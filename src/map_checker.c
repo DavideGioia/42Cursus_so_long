@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:26:19 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/07 03:19:10 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/29 02:46:21 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	map_checker(t_map *map)
 		ft_printf("ERRORE: la mappa non é circondata da mura.\n");
 		return (1);
 	}
-	if (map->n_exit < 1 || map->n_collect < 1 || map->n_player < 1)
+	if (map->n_exit < 1 || map->n_coin < 1 || map->n_player < 1)
 	{
 		ft_printf("ERRORE: non ci sono abbastanza items.\n");
 		return (1);
