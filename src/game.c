@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                             :+:      :+:    :+:   */
+/*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/29 02:28:19 by dgioia            #+#    #+#             */
-/*   Updated: 2022/12/02 09:58:33 by dgioia           ###   ########.fr       */
+/*   Created: 2022/11/30 10:14:48 by dgioia            #+#    #+#             */
+/*   Updated: 2022/11/30 10:17:11 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	ft_input(int key, t_program *p)
+void	game_init(t_program *p)
 {
-	if ((key == W || key == ARR_UP) && collition_checker(p, W) != 1)
-		move_to_up_down(p, W);
-	if ((key == A || key == ARR_LEFT) && collition_checker(p, A) != 1)
-		move_to_left_right(p, A);
-	if ((key == S || key == ARR_DOWN) && collition_checker(p, S) != 1)
-		move_to_up_down(p, S);
-	if ((key == D || key == ARR_RIGHT) && collition_checker(p, D) != 1)
-		move_to_left_right(p, D);
+	p->game.coin_collected = 0;
+	p->game.moves = 0;
+	p->game.game_complete = 0;
+}
+
+int	game_finish(t_program *p)
+{
+	mlx_clear_window(p->mlx, p->window.ref);
+	mlx_destroy_window(p->mlx, p->window.ref);
+	ft_free_stuff(p);
+	exit(0);
 
 	return (0);
 }

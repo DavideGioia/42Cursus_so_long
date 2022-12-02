@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/29 02:43:52 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/30 23:13:11 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,24 @@ typedef struct s_program
 	t_game		game;
 }	t_program;
 
+void	ft_free_stuff(t_program *p);
+
+//collition 
+// void	check_block(int	dir, char	tile);
+int	collition_checker(t_program *p, int dir);
+
+// game
+void	game_init(t_program *p);
+int	game_finish(t_program *p);
+
+// move
+void	place_grass(t_program *p);
+void	place_player(t_program *p);
+void	move_to_up_down(t_program *p, int	dir);
+void	move_to_left_right(t_program *p, int dir);
+
 // map
-char	**map_init(t_map *map);
+int		map_uploader(t_map *map);
 int		map_row_counter(void);
 void	map_debugger(t_map *map); // da rimuovere
 
@@ -103,14 +119,14 @@ int	map_items_checker(t_map *map);
 int	map_checker(t_map *map);
 
 // window
-t_window	window_init(void *mlx, t_map *map);
+t_window	window_init(void *mlx, t_map *map, t_program *p);
 
 // hook
 int	ft_input(int key, t_program *p);
 int	tile_checker(t_program *p, int dir);
 
 //texture
-t_image	new_sprite(void	*mlx, char map_item);
+t_image	new_sprite(void	*mlx, char map_item, t_program *p);
 void	load_texture(t_map *map, t_program *p);
 
 #endif

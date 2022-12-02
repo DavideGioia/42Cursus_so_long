@@ -6,13 +6,13 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:18:06 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/29 02:46:02 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/11/30 10:11:36 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/so_long.h"
 
-int	map_items_counter(t_map *map, char *row)
+void	map_items_counter(t_map *map, char *row)
 {
 	map->n_exit += ft_countchar(row, 'E');
 	map->n_player += ft_countchar(row, 'P');
@@ -30,6 +30,7 @@ int	map_row_counter(void)
 	row = get_next_line(fd);
 	while (row)
 	{
+		free(row);
 		row = get_next_line(fd);
 		c++;
 	}
@@ -38,7 +39,7 @@ int	map_row_counter(void)
 	return (c);
 }
 
-char	**map_init(t_map *map)
+int	map_uploader(t_map *map)
 {
 	int		i;
 	int		fd;
@@ -62,12 +63,11 @@ char	**map_init(t_map *map)
 	if (map_checker(map) == 1)
 	{
 		close(fd);
-		exit (0);
+		return (1);
 	}
+	map->map[i] = NULL;
 	close(fd);
-	
-	//ft_printf("\n MAPPA MAP: %p", map->map);
-	return (map->map);
+	return (0);
 }
 
 // da rimuovere a fine progetto, serve per controllare la mappa
