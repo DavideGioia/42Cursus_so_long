@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:06:35 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/30 23:13:11 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/12/03 11:01:34 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	collition_checker(t_program *p, int dir);
 // game
 void	game_init(t_program *p);
 int	game_finish(t_program *p);
+void	game_update_score(t_program *p);
 
 // move
 void	place_grass(t_program *p);

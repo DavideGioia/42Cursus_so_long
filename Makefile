@@ -6,7 +6,7 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/29 22:26:34 by dgioia            #+#    #+#              #
-#    Updated: 2022/11/29 02:30:53 by dgioia           ###   ########.fr        #
+#    Updated: 2022/11/30 10:34:34 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=	so_long
 
 CC		=	gcc -g
 
-CFLAGS	=	
+CFLAGS	=	-Wextra -Wall -Werror
 
 SRC	=	src/main.c \
 		src/map.c \
@@ -22,6 +22,9 @@ SRC	=	src/main.c \
 		src/window.c \
 		src/hook.c \
 		src/texture.c \
+		src/game.c \
+		src/move.c \
+		src/collition.c \
 
 OBJ	=	$(SRC:.c=.o)
 
