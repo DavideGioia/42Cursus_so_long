@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:27:38 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/30 10:15:29 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/12/03 11:39:21 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	main(void)
 	p.mlx = mlx_init();
 	p.window = window_init(p.mlx, map, &p);
 	
-	p.e = (t_e *) malloc (sizeof(t_e) * 10);
+	p.e = (t_e *) malloc (sizeof(t_e) * 2);
 	game_init(&p);
 	load_texture(map, &p);
 	mlx_key_hook(p.window.ref, *ft_input, &p);
 	
 	mlx_loop(p.mlx);
-
+	
 	return (0);
 }

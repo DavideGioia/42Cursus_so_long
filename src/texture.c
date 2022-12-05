@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 02:30:13 by dgioia            #+#    #+#             */
-/*   Updated: 2022/12/01 12:02:19 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/12/05 15:32:27 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_image	new_sprite(void	*mlx, char map_item, t_program *p)
 {
 	t_image img;
 	
+	if (map_item == 'S')
+		img.ref = mlx_xpm_file_to_image(mlx, "./imgs/skeleton.xpm", &img.size.x, &img.size.y);
 	if (map_item == 'C')
 		img.ref = mlx_xpm_file_to_image(mlx, "./imgs/coin.xpm", &img.size.x, &img.size.y);
 	else if (map_item == 'E' && p->game.coin_collected == p->map->n_coin)
@@ -63,7 +65,9 @@ void	load_texture(t_map *map, t_program *p)
 			p->sprite_pos.y = i * 64;
 			mlx_put_image_to_window(p->mlx, p->window.ref, p->sprite.ref, p->sprite_pos.x, p->sprite_pos.y);
 			j++;
+			mlx_destroy_image(p->mlx, p->sprite.ref);
 		}
 		i++;
 	}
+
 }

@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:26:19 by dgioia            #+#    #+#             */
-/*   Updated: 2022/11/29 02:46:21 by dgioia           ###   ########.fr       */
+/*   Updated: 2022/12/03 12:27:38 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	map_invalidchar_checker(t_map *map)
 			if (map->map[i][j] != '1' && map->map[i][j] != '0' && \
 				map->map[i][j] != 'E' && map->map[i][j] != 'P' && \
 				map->map[i][j] != 'C' && map->map[i][j] != '\n' && \
-				map->map[i][j] != '\0')
+				map->map[i][j] != 'S' && map->map[i][j] != '\0')
 				return (1);
 			j++;
 		}
